@@ -2,6 +2,7 @@ use reqwest;
 use reqwest::header::USER_AGENT;
 use serde_json;
 use std::fs::{read, write};
+use super::songs::file_path;
 
 pub fn new_artist(artist: &str) {
     if artist.len() == 0 {
@@ -10,7 +11,7 @@ pub fn new_artist(artist: &str) {
 
     let (artist_name, artist_id) = get_artist(artist);
 
-    let artists_saved_file = read("artists.json").unwrap_or(vec!['{' as u8, '}' as u8]);
+    let artists_saved_file = read(file_path()).unwrap_or(vec!['{' as u8, '}' as u8]);
 
     let mut artists_json = serde_json::from_slice::<serde_json::Value>(artists_saved_file.as_slice()).unwrap();
     let artists_obj = artists_json.as_object_mut().unwrap();

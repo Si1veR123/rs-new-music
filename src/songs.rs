@@ -26,7 +26,7 @@ impl Debug for Track {
     }
 }
 
-fn file_path() -> PathBuf {
+pub fn file_path() -> PathBuf {
     home_dir().unwrap().join(SAVED_DATA_FILENAME)
 }
 
