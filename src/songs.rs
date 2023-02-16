@@ -4,11 +4,15 @@ use reqwest::header::USER_AGENT;
 use serde_json;
 use std::fmt::Debug;
 use std::fs::read;
+use std::path::PathBuf;
 use chrono::NaiveDate;
 use chrono::Days;
 use chrono::offset::Local;
 use std::thread;
 use std::time::Duration;
+use home::home_dir;
+
+const SAVED_DATA_FILENAME: &'static str = "AppData\\Local\\artists.json";
 
 struct Track {
     title: String,
@@ -22,8 +26,12 @@ impl Debug for Track {
     }
 }
 
+fn file_path() -> PathBuf {
+    home_dir().unwrap().join(SAVED_DATA_FILENAME)
+}
+
 pub fn recent_songs(days: u64) {
-    let artists_saved_file = read("artists.json").unwrap_or(vec!['{' as u8, '}' as u8]);
+    let artists_saved_file = read(file_path()).unwrap_or(vec!['{' as u8, '}' as u8]);
     let artists_json = serde_json::from_slice::<serde_json::Value>(artists_saved_file.as_slice()).unwrap();
 
     let artists_obj = artists_json.as_object().unwrap();
