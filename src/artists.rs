@@ -47,12 +47,12 @@ pub fn remove_artist(artist: &str) {
         panic!("No artist name provided");
     }
 
-    let artists_saved_file = read("artists.json").unwrap_or(vec!['{' as u8, '}' as u8]);
+    let artists_saved_file = read(file_path()).unwrap_or(vec!['{' as u8, '}' as u8]);
 
     let mut artists_json = serde_json::from_slice::<serde_json::Value>(artists_saved_file.as_slice()).unwrap();
     let artists_obj = artists_json.as_object_mut().unwrap();
     
     artists_obj.remove(artist);
 
-    write("artists.json", artists_json.to_string()).expect("Couldn't write to file");
+    write(file_path(), artists_json.to_string()).expect("Couldn't write to file");
 }
