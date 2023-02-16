@@ -18,7 +18,7 @@ pub fn new_artist(artist: &str) {
     
     artists_obj.insert(artist_name, serde_json::Value::String(artist_id));
 
-    write("artists.json", artists_json.to_string()).expect("Couldn't write to file");
+    write(file_path(), artists_json.to_string()).expect("Couldn't write to file");
 }
 
 fn get_artist(artist: &str) -> (String, String) {
